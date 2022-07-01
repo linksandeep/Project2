@@ -1,4 +1,4 @@
-const { default: mongoose } = require("mongoose");
+//const { default: mongoose } = require("mongoose");
 const collegeModel = require("../model/collegeModel");
 const internModel = require("../model/internModel");
 const { isValid,  isValidEmail, isValidMobile, isValidCollegeName } = require("../validator/validator");
@@ -34,9 +34,9 @@ const createIntern = async function (req, res) {
 
         const collegeID = collegeNamePresent._id
         data["collegeId"] = collegeID;
-        if (data.isDeleted == true) {
-            return res.status(400).send({ status: false, msg: "isDeleted must be false" })
-        }
+        // if (data.isDeleted == true) {
+        //     return res.status(400).send({ status: false, msg: "isDeleted must be false" })
+        // }
 
         let savedData = await internModel.create(data)
         return res.status(201).send({ status: true, msg: savedData })
@@ -50,8 +50,8 @@ const getCollege = async function (req, res) {
     try {
         let { collegeName } = req.query
         let query = req.query
-        let data = Object.keys(query)//object.keys only RETURN keys in array of strings and only keys
-        if (!data.length) return res.status(400).send({ status: false, msg: "Data can not be empty" });
+       let data = Object.keys(query)//object.keys only RETURN keys in array of strings and only keys
+       if (!data.length) return res.status(400).send({ status: false, msg: "Data can not be empty" });
         if (!isValidCollegeName(collegeName)) return res.status(400).send({ status: false, msg: "collegeName is not valid" });
         //regex will check our query with all letter its matching or not and ignoring case sensitivity
         let collegeDetail = await collegeModel.findOne({  name: collegeName, isDeleted: false })
