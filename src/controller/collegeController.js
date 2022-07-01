@@ -1,5 +1,5 @@
 const collegeModel = require("../model/collegeModel")
-const { isValidName, isValid, isValidUrl, isValidMobile, isValidEmail, isValidCollegeName } = require("../Validator/validator")
+const { isValid, isValidUrl, isValidCollegeName } = require("../Validator/validator")
 
 //POST /functionup/colleges
 const createCollege = async function (req, res) {
@@ -12,7 +12,9 @@ const createCollege = async function (req, res) {
             if (!isValid(name)) return res.status(400).send({ status: false, msg: "name is required" })
         if (!isValidCollegeName(name)) return res.status(400).send({ status: false, msg: "collegeName is not valid" });
         if (!isValid(fullName)) return res.status(400).send({ status: false, msg: "fullName is required" })
-        if (!isValidName(fullName)) return res.status(400).send({ status: false, msg: "fullName is not valid" });
+        //fullName validation
+        if (!(/^[A-Za-z_ ]+$/.test(fullName)))
+            return res.status(400).send({ status: false, message: "College Full Name is Invalid " })
         if (!isValid(logoLink)) return res.status(400).send({ status: false, msg: "url can not be empty" });
 
         if (!isValidUrl(logoLink)) return res.status(400).send({ status: false, msg: "not a valid url" })
